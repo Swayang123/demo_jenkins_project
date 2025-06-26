@@ -1,32 +1,32 @@
 pipeline {
     agent any
 
-    options {
-        disableConcurrentBuilds()
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-                echo 'Checking out code from SCM...'
+                echo 'Cloning the repository...'
                 checkout scm
             }
         }
 
-        stage('Run Python Script') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Running Python script...'
-                sh 'python3 run_script.py'
+                echo 'Installing dependencies...'
+                sh 'pip install -r requirements.txt || true'
+            }
+        }
+
+        stage('Run Script') {
+            steps {
+                echo 'Running script...'
+                sh 'python3 script.py'
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline completed successfully.'
-        }
-        failure {
-            echo 'Pipeline failed.'
+        always {
+            echo 'Pipeline completed.'
         }
     }
 }
