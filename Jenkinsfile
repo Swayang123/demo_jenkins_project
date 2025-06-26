@@ -8,19 +8,15 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                script {
-                    echo 'Simulating checkout (code is local)'
-                    sh 'ls -l'
-                }
+                echo 'Checking out code from SCM...'
+                checkout scm
             }
         }
 
         stage('Run Python Script') {
             steps {
-                script {
-                    echo 'Running Python script...'
-                    sh 'python3 run_script.py'
-                }
+                echo 'Running Python script...'
+                sh 'python3 run_script.py'
             }
         }
     }
